@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 import '../header.css';
 
 const Header = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState('');
   const navigate = useNavigate(); // For navigation after logout
 
   // Check authentication status on component mount
@@ -11,6 +13,14 @@ const Header = () => {
     const userToken = localStorage.getItem('token'); // Use the same key from Login.jsx
     if (userToken) {
       setIsAuthenticated(true);
+    }
+    try {
+      // Decode the token to get user info
+      const decodedToken = jwtDecode(userToken);
+      setUsername(decodedToken.username);  // Assuming 'username' is in the token payload
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      setIsAuthenticated(false);
     }
   }, []);
 
@@ -30,7 +40,7 @@ const Header = () => {
         <ul className='nav__menu'>
           {isAuthenticated ? (
             <>
-              <li><Link to="/profile">Misheal</Link></li>
+              <li><Link to="/profile">{username}</Link></li>  {/* Display username */}
               <li><Link to="/create">Create Post</Link></li>
               <li>
                 <button
