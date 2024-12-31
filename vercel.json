@@ -7,18 +7,18 @@
         "config": { "distDir": "blogpost-client/build" }
       },
       {
-        "src": "blogpost-crud/server.js",
+        "src": "blogpost-crud/index.js",
         "use": "@vercel/node"
       }
     ],
     "routes": [
       {
         "src": "/auth/(.*)",
-        "dest": "blogpost-crud/server.js"
+        "dest": "blogpost-crud/index.js"
       },
       {
         "src": "/api/(.*)",
-        "dest": "blogpost-crud/server.js"
+        "dest": "blogpost-crud/index.js"
       },
       {
         "src": "/(.*)",
