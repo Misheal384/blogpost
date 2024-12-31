@@ -1,0 +1,37 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "blogpost-client/package.json",
+        "use": "@vercel/static-build",
+        "config": { "distDir": "blogpost-client/build" }
+      },
+      {
+        "src": "blogpost-crud/server.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/auth/(.*)",
+        "dest": "blogpost-crud/server.js"
+      },
+      {
+        "src": "/api/(.*)",
+        "dest": "blogpost-crud/server.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "blogpost-client/build/$1"
+      }
+    ],
+    "env": {
+      "DB_HOST": "@db_host",
+      "DB_USER": "@db_user",
+      "DB_PASSWORD": "@db_password",
+      "DB_NAME": "@db_name",
+      "JWT_SECRET": "@jwt_secret",
+      "FRONTEND_URL": "@frontend_url"
+    }
+  }
+  
