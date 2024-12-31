@@ -10,13 +10,13 @@ const BlogDetail = () => {
     const [post, setPost] = useState(null);  //to store the fetched blog post
 
     useEffect(() => {
+        const fetchPost = async () => {
+            const { data } = await getPost(id);  //fetches the post details from the backend
+            setPost(data);
+        };
+
         fetchPost();
     }, [id]);
-
-    const fetchPost = async () => {
-        const { data } = await getPost(id);  //fetches the post details from the backend
-        setPost(data);
-    };
 
     if (!post) return <p className="loading">Loading...</p>;
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPost, updatePost, getPost } from '../api/blogApi';
 import { useNavigate, useParams } from 'react-router-dom';
-import Foooter from './Footer';
+import Footer from './Footer';
 import Header from './Header';
 
 const BlogForm = () => {
@@ -13,23 +13,21 @@ const BlogForm = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
-          // Redirect to login page if not authenticated
-          navigate('/login');
+            // Redirect to login page if not authenticated
+            navigate('/login');
         }
-      }, [navigate]);
-      
+    }, [navigate]);
 
     useEffect(() => {
         if (id) {
+            const fetchPost = async () => {
+                const { data } = await getPost(id);
+                setTitle(data.title);
+                setContent(data.content);
+            };
             fetchPost();
         }
     }, [id]);
-
-    const fetchPost = async () => {
-        const { data } = await getPost(id);
-        setTitle(data.title);
-        setContent(data.content);
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -42,7 +40,7 @@ const BlogForm = () => {
     };
 
     return (
-        <div className="dontainer">
+        <div className="container">
             <Header />
             <form onSubmit={handleSubmit} className="blog-form">
                 <h2>{id ? 'Edit Post' : 'Create Post'}</h2>
@@ -61,7 +59,7 @@ const BlogForm = () => {
                     Save
                 </button>
             </form>
-            <Foooter />
+            <Footer />
         </div>
     );
 };
